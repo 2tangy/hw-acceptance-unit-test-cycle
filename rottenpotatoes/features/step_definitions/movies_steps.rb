@@ -26,4 +26,15 @@ Then /^the director of "([^"]*)" should be "([^"]*)"$/ do |title, director|
   movie = Movie.find_by_title(title)
   movie.director.should == director
   end
+When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
+  rating_list.delete!("\"")
+  if uncheck.nil?
+    rating_list.split(',').each do |field|
+      check("ratings["+field.strip+"]")
+    end
+  else
+    rating_list.split(',').each do |field|
+      uncheck("ratings["+field.strip+"]")
+    end
+  end
 end
